@@ -144,6 +144,106 @@ void deleteNode(struct Node ** head_ref, struct Node * del) {
     return;
 }
 
+//delte the node at the given position in doubly linked list
+void deleteNodeGivenPos(struct Node ** head_ref, int n) {
+    if (*head_ref == NULL || n <= 0) {
+        return;
+    }
+    
+    struct Node * current = *head_ref;
+    
+    //获取要删除位置的结点
+    for (int i = 1; current != NULL && i < n; i++) {
+        current = current->next;
+    }
+    
+    //if n is greater than the number of linked
+    if (current == NULL) {
+        return;
+    }
+    deleteNode(head_ref, current);
+}
+
+//count triplets in a sorted doubly linked list whose sum is
+//equal to a given value x
+//Time complexity:O(n3)
+//auxiliary space:0(1)
+//int countTriplets(struct Node * head, int x) {
+//    struct Node * ptr1, * ptr2, * ptr3;
+//
+//    int count = 0;
+//    //generate all possible triplets
+//    for (ptr1 = head; ptr1 != NULL; ptr1 = ptr1->next) {
+//        for (ptr2 = ptr1->next; ptr2 != NULL; ptr2=ptr2->next) {
+//            for (ptr3 = ptr2->next; ptr3 != NULL; ptr3=ptr3->next) {
+//                // if elements in the current triplet sum up to 'x'
+//                if ((ptr1->data + ptr2->data + ptr3->data) == x){
+//                    // increment count
+//                    count++;
+//                }
+//            }
+//        }
+//    }
+//    return count;
+//}
+
+//count triplets in a sorted doubly linked list
+// whose sum is equal to a given value 'x'
+int countPairs(struct Node* first, struct Node* second, int value) {
+    int count  = 0;
+    
+    // The loop terminates when either of two pointers
+        // become NULL, or they cross each other (second->next
+        // == first), or they become same (first == second)
+    while (first != NULL && second != NULL && first != second && second->next != first) {
+        //pair found
+        if (first->data + second->data == value) {
+            //increment count
+            count ++;
+            
+            //move first in forward direction
+            first = first ->next;
+            
+            //move second in backward direction
+            second = second->prev;
+        }else if ((first->data + second->data) > value) {
+            second = second->prev;
+        }else{
+            first = first->next;
+        }
+    }
+    return count;
+}
+
+int countTriplets(struct Node * head, int x) {
+    
+    //if list is empty
+    if (head == NULL) {
+        return 0;
+    }
+    int count = 0;
+
+    struct Node * current, * first, *last;
+    
+    //get pointer to the last node
+    last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    
+    //traversing the doubly linked list
+    for (current = head; current != NULL; current = current->next) {
+        //
+        first = current->next;
+        // count pairs with sum(x - current->data) in the range
+        // first to last and add it to the 'count' of triplets
+        count += countPairs(first, last, x - current->data);
+    }
+    return count;
+}
+
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     /* Start with the empty list */
