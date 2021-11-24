@@ -34,7 +34,6 @@ void push(struct StackNode **root, int data){
     stackNode->next = *root;
     *root = stackNode;
     printf("%d pushed to stack\n", data);
-
 }
 
 int pop(struct StackNode ** root) {
