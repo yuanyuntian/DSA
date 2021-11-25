@@ -14,6 +14,7 @@ struct Queue {
     int front,rear;
     unsigned capacity;
     int * array;
+    int size;
 };
 
 //create a queue of given capacity.
@@ -21,41 +22,54 @@ struct Queue {
 struct Queue * createQueue(unsigned capacity) {
     struct Queue * queue = (struct Queue * )malloc(sizeof(struct Queue));
     queue->capacity = capacity;
-    queue->front = queue->rear = 0;
-    
+    queue->rear = -1;
+    queue->front = 0;
+    queue->size = 0;
     queue->array = (int *)malloc(queue->capacity * sizeof(int));
     return queue;
 }
 
+//queue is full when size becomes equal to the capacity
+int isFull(struct Queue * queue) {
+    return (queue->size == queue->capacity);
+}
 
+//queue is empty when size is 0
+int isEmpty(struct Queue * queue) {
+    return (queue->size == 0);
+}
 
 
 //add an item to the queue
 //it change rear and size
 void enqueue(struct Queue * queue, int item) {
-    if ((queue->rear + 1) % queue->capacity == queue->front) {
+    if (isFull(queue)) {
         //满
         return;
     }
-    queue->array[queue->rear % queue->capacity] = item;
     queue->rear++;
+    queue->rear %= queue->capacity;
+    queue->size++;
+    queue->array[queue->rear] = item;
     printf("%d enqueued to queue\n", item);
 }
 
 //remove an item from queue.It changes front and size
 int dequeue(struct Queue * queue) {
-    if (queue->front == queue->rear % queue->capacity) {
+    if (isEmpty(queue)) {
         //空
         return INT_MIN;
     }
-    //front不再直接 +1，而是+1后同capacity进行比较，如果=capacity，则直接跳转到 a[0]
-    queue->front = (queue->front + 1) % queue->capacity;
-    return queue->front;
+    int tmp = queue->array[queue->front];
+    queue->front++;
+    queue->front %= queue->capacity;
+    queue->size--;
+    return tmp;
 }
 
 //get front of queue
 int front (struct Queue * queue) {
-    if (queue->front == queue->rear % queue->capacity) {
+    if (isEmpty(queue)) {
         //空
         return INT_MIN;
     }
@@ -64,7 +78,7 @@ int front (struct Queue * queue) {
 
 //get rear of queue
 int rear(struct Queue * queue){
-    if (queue->front == queue->rear % queue->capacity) {
+    if (isEmpty(queue)) {
         //空
         return INT_MIN;
     }
@@ -84,6 +98,23 @@ int main(int argc, const char * argv[]) {
  
     printf("%d dequeued from queue\n\n",
            dequeue(queue));
+    
+    printf("%d dequeued from queue\n\n",
+           dequeue(queue));
+    
+    printf("%d dequeued from queue\n\n",
+           dequeue(queue));
+    
+    printf("%d dequeued from queue\n\n",
+           dequeue(queue));
+    
+    enqueue(queue, 11);
+    enqueue(queue, 12);
+    enqueue(queue, 13);
+    enqueue(queue, 14);
+    enqueue(queue, 15);
+    enqueue(queue, 16);
+    
  
     printf("Front item is %d\n", front(queue));
     printf("Rear item is %d\n", rear(queue));
