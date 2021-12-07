@@ -60,47 +60,46 @@ Node * search(Node ** tree, int value) {
 }
 
 //Binary search Tree(Delete)
-//1.Node to be deleted is the leaf. simply remove from the tree
-//2.Node to be deleted has only one child.Copy the child to the node and delete the node
+//1.Deleting a node with no children: remove the node from the tree
+//2.Deleting a node with one child: remove the node and replace it with its child
+//3.
 
-Node * deleteNode(Node ** tree, int key) {
+void deleteNode(Node ** tree, int key) {
     //base case
     if ((*tree) == NULL) {
-        return *tree;
+        return ;
     }
     
     //if the key to be deleted is smaller than the root's key, then  it lies in left subtree
     if (key < (*tree)->data) {
-        (*tree)->leftChild = deleteNode(&((*tree)->leftChild), key);
+        deleteNode(&((*tree)->leftChild), key);
     }else if(key > (*tree)->data) {
         //if hte key to be deleted is greater than the root's key, then it lies in the right subtree
-        (*tree)->rightChild = deleteNode(&((*tree)->rightChild), key);
+        deleteNode(&((*tree)->rightChild), key);
     }else{
         //if key is the same as root's key, then this is the node to be deleted
         //node with only one child or no child
-        if ((*tree)->leftChild == NULL) {
-            Node * tmp = (*tree)->rightChild;
+        
+        //Case 1: node to be deleted has no children (it is a leaf node)
+        if ((*tree)->leftChild == NULL && (*tree)->rightChild == NULL) {
             free(*tree);
-            return tmp;
-        }else if ((*tree)->rightChild == NULL) {
-            Node * tmp = (*tree)->leftChild;
-            free(*tree);
-            return tmp;
         }
-        
-        //node with two chaildren
-        //get the inorder successor
-        //(samllest in the right subtree)
-        Node * tmp = minValueNode(tree);
-        
-        //copy the inorder
-        //successor's content to this node
-        (*tree)->data = tmp->data;
-        
-        //Delete the inorder successor
-        (*tree)->rightChild = deleteNode(&((*tree)->rightChild), key);
+        //Case 2: node to be deleted has two children
+        else if ((*tree)->leftChild && (*tree)->rightChild){
+            //get the inorder successor
+            //(samllest in the right subtree)
+            Node * tmp = minValueNode(&((*tree)->rightChild));
+            (*tree)->data = tmp->data;
+            deleteNode(&((*tree)->rightChild), tmp->data);
+        }
+        //Node to be deleted has only one child
+        else{
+            Node * tmp = (*tree)->leftChild ? (*tree)->leftChild :(*tree)->rightChild;
+            Node *curr = (*tree);
+            *tree = tmp;
+            free(curr);
+        }
     }
-    return *tree;
 }
 
 
@@ -176,6 +175,8 @@ int main(int argc, const char * argv[]) {
     int h = heightOftree(&root);
     printf("pre order\n");
 
+    deleteNode(&root, 12);
+    
     displayPreOrder(&root);
     
     
