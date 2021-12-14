@@ -10,6 +10,36 @@
 #include <limits.h>
 #include <math.h>
 
+/**
+ node to be deleted is the leaf:simply remove from the tree
+ 50                            50
+/     \         delete(20)      /   \
+30      70       --------->    30     70
+/  \    /  \                     \    /  \
+20   40  60   80                   40  60   80
+ */
+
+/**
+ node to be deleted has only one child:copy the child to the node and delete the node
+ 50                            50
+/     \         delete(30)      /   \
+30      70       --------->    40     70
+\    /  \                          /  \
+40  60   80                       60   80
+ */
+
+/**
+ 
+ node to be deleted has two children:find inorder successor of the node.copy contents of the inorder successor
+ to the node and deleted the inorder successor.Note that inorder predecessor can also the used
+ 50                            60
+/     \         delete(50)      /   \
+40      70       --------->    40    70
+    /  \                            \
+   60   80                           80
+ */
+
+
 typedef struct Node {
     int data;
     struct Node * leftChild;
