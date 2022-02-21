@@ -39,7 +39,7 @@ int dequeue(void) {
     struct queueNode * f = front;
     front = front->next;
     if (front == NULL) {
-        rear = NULL;;
+        rear = NULL;
     }
     return f->val;
 }
