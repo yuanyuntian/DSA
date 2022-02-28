@@ -9,29 +9,17 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-
-int findMin(int * sub, int size) {
-    int min = sub[0];
-    int index_min = 0;
-    for (int i  = 0; i < size; i ++) {
-        if (sub[i] < min) {
-            index_min = i;
-            min = sub[i];
-        }
-    }
-//    for (int i = 0 ; i < size; i ++) {
-//        printf("%d\n",*(sub + i));
-//    }
-    return index_min;
-}
-
 void selectionSort(int * arr, int size) {
     for (int i = 0 ; i < size; i ++) {
-        int min = findMin(arr + i, size - i);
+        int min_index = i;
+        for (int j = i; j < size ; j ++) {
+            if (arr[min_index] > arr[j]) {
+                min_index = j;
+            }
+        }
         int tmp = arr[i];
-        int last = arr[min];
-        arr[i] = last;
-        arr[min] = tmp;
+        arr[i] = arr[min_index];
+        arr[min_index] = tmp;
     }
 }
 
