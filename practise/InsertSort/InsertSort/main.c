@@ -12,16 +12,13 @@
 
 void InsertionSort(int *arr, int size) {
     
-    int i ,j;
+    int i ,j, ret;
     for (i = 1; i < size; i ++) {
-        int ret = arr[i];
-        for (j = i - 1; j >= 0 ; j --) {
-            if (ret < arr[j]) {
-                int tmp = arr[j + 1];
-                arr[j + 1] = arr[j];
-                arr[j] = tmp;
-            }
+        ret = arr[i];
+        for (j = i - 1; j >= 0 && ret < arr[j]; j --) {
+            arr[j + 1] = arr[j];
         }
+        arr[j + 1] = ret;
     }
 }
 
