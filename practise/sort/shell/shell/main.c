@@ -11,17 +11,14 @@
 
 
 void shellSort(int * arr, int size) {
-    int i ,j,gap;
+    int i ,j,gap, ret;
     for (gap = size/2; gap > 0; gap /= 2) {
         for (i = gap; i < size; i ++) {
-            int ret = arr[i];
-            for (j = i; j - gap >= 0; j -= gap) {
-                if (ret < arr[j]) {
-                    int tmp = arr[j + gap];
-                    arr[j + gap] = arr[j];
-                    arr[j] = tmp;
-                }
+            ret = arr[i];
+            for (j = i - gap; j >= 0 && ret < arr[j]; j -= gap) {
+                arr[j + gap] = arr[j];
             }
+            arr[j + gap] = ret;
         }
     }
 
