@@ -27,9 +27,9 @@ void shellSort(int * arr, int size) {
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    int a [] = {10,3,11,18,5,13};
-    shellSort(a, 6);
-    for (int i = 0; i < 6; i ++) {
+    int a [] = {10,3,11,18,5,13,100,200,1,22,35};
+    shellSort(a, 11);
+    for (int i = 0; i < 11; i ++) {
         printf("%d\n",a[i]);
     }
     return 0;
