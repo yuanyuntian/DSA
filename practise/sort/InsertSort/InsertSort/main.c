@@ -10,15 +10,15 @@
 #include <stdbool.h>
 
 void InsertSort(int *arr, int size) {
+    int pre,current;
     for (int i = 1; i < size; i++) {
-        int des = arr[i];
-        for (int j = i - 1; j >= 0 ; j --) {
-            if (arr[j] > des) {
-                int tmp = arr[j + 1];
-                arr[j + 1] = arr[j];
-                arr[j] = tmp;
-            }
+        pre = i - 1;
+        current = arr[i];
+        while (pre >= 0 && arr[pre] > current) {
+            arr[pre + 1] = arr[pre];
+            pre --;
         }
+        arr[pre + 1] = current;
     }
 }
 
