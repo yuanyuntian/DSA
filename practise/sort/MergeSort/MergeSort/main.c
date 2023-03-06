@@ -39,6 +39,7 @@ void merge(int * arr, int left, int mid, int right, int *tmp) {
 }
 
 void sort(int * arr, int left, int right, int * tmp) {
+    
     if (left < right) {
         int mid = (left + right)/2;
         sort(arr, left, mid, tmp);//左边归并排序，使得左子序有序
@@ -53,7 +54,7 @@ int main(int argc, const char * argv[]) {
     // insert code here...
     int a [] = {10,12,9,5,100,76,34};
     int tmp[7];
-    sort(a, 0, 7, tmp);
+    sort(a, 0, 6, tmp);
     for (int i = 0 ; i < 7; i ++) {
         printf("%d\n", tmp[i]);
     }

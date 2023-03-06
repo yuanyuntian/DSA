@@ -24,9 +24,9 @@ void InsertSort(int *arr, int size) {
 
 int main(int argc, const char * argv[]) {
     // insert code here...
-    int a [] = {100,10,109,20,50};
-    InsertSort(a, 5);
-    for (int i = 0 ; i < 5; i ++) {
+    int a [] = {100,10,109,20,50,200,300,23,54,2};
+    InsertSort(a, 10);
+    for (int i = 0 ; i < 10; i ++) {
         printf("%d\n",a[i]);
     }
     return 0;
